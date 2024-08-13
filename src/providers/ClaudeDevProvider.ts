@@ -10,7 +10,7 @@ https://github.com/microsoft/vscode-webview-ui-toolkit-samples/blob/main/default
 https://github.com/KumarVariable/vscode-extension-sidebar-html/blob/master/src/customSidebarViewProvider.ts
 */
 
-type SecretKey = "apiKey" | "openRouterApiKey" | "awsAccessKey" | "awsSecretKey"
+type SecretKey = "apiKey" | "openRouterApiKey" | "awsAccessKey" | "awsSecretKey" | "awsSessionToken"
 type GlobalStateKey =
 	| "apiProvider"
 	| "apiModelId"
@@ -261,6 +261,7 @@ export class ClaudeDevProvider implements vscode.WebviewViewProvider {
 								openRouterApiKey,
 								awsAccessKey,
 								awsSecretKey,
+								awsSessionToken,
 								awsRegion,
 							} = message.apiConfiguration
 							await this.updateGlobalState("apiProvider", apiProvider)
@@ -269,6 +270,7 @@ export class ClaudeDevProvider implements vscode.WebviewViewProvider {
 							await this.storeSecret("openRouterApiKey", openRouterApiKey)
 							await this.storeSecret("awsAccessKey", awsAccessKey)
 							await this.storeSecret("awsSecretKey", awsSecretKey)
+							await this.storeSecret("awsSessionToken", awsSessionToken)
 							await this.updateGlobalState("awsRegion", awsRegion)
 							this.claudeDev?.updateApi(message.apiConfiguration)
 						}
@@ -431,6 +433,7 @@ export class ClaudeDevProvider implements vscode.WebviewViewProvider {
 			openRouterApiKey,
 			awsAccessKey,
 			awsSecretKey,
+			awsSessionToken,
 			awsRegion,
 			maxRequestsPerTask,
 			lastShownAnnouncementId,
@@ -442,6 +445,7 @@ export class ClaudeDevProvider implements vscode.WebviewViewProvider {
 			this.getSecret("openRouterApiKey") as Promise<string | undefined>,
 			this.getSecret("awsAccessKey") as Promise<string | undefined>,
 			this.getSecret("awsSecretKey") as Promise<string | undefined>,
+			this.getSecret("awsSessionToken") as Promise<string | undefined>,
 			this.getGlobalState("awsRegion") as Promise<string | undefined>,
 			this.getGlobalState("maxRequestsPerTask") as Promise<number | undefined>,
 			this.getGlobalState("lastShownAnnouncementId") as Promise<string | undefined>,
@@ -470,6 +474,7 @@ export class ClaudeDevProvider implements vscode.WebviewViewProvider {
 				openRouterApiKey,
 				awsAccessKey,
 				awsSecretKey,
+				awsSessionToken,
 				awsRegion,
 			},
 			maxRequestsPerTask,
